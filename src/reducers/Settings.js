@@ -1,0 +1,96 @@
+import {
+  NAVBAR_SELECTED,
+  CHANGE_DIRECTION,
+  CHANGE_NAVIGATION_STYLE,
+  DARK_THEME,
+  DRAWER_TYPE,
+  FIXED_DRAWER,
+  HORIZONTAL_MENU_POSITION,
+  INSIDE_THE_HEADER,
+  SWITCH_LANGUAGE,
+  THEME_COLOR,
+  VERTICAL_NAVIGATION,
+  WINDOW_WIDTH
+} from 'constants/ActionTypes';
+
+const rltLocale = ['ar'];
+const initialSettings = {
+  navCollapsed: false,
+  navbar_selected: localStorage.getItem('proceso') ? localStorage.getItem('proceso') : 'ip',
+  drawerType: FIXED_DRAWER,
+  width: window.innerWidth,
+  isDirectionRTL: false,
+  navigationStyle: VERTICAL_NAVIGATION,
+  horizontalNavPosition: INSIDE_THE_HEADER,
+  locale: {
+    languageId: 'english',
+    locale: 'en',
+    name: 'English',
+    icon: 'us'
+  }
+};
+
+const settings = (state = initialSettings, action) => {
+  switch (action.type) {
+    case DRAWER_TYPE:
+      return {
+        ...state,
+        drawerType: action.drawerType
+      };
+    case NAVBAR_SELECTED:
+      localStorage.setItem("proceso", action.process);
+        return {
+          ...state,
+          navbar_selected: action.process
+        }
+    case WINDOW_WIDTH:
+      return {
+        ...state,
+        width: action.width
+      };
+    case THEME_COLOR:
+      return {
+        ...state,
+        darkTheme: false,
+        themeColor: action.color
+      };
+    case DARK_THEME:
+      return {
+        ...state,
+        darkTheme: !state.darkTheme
+      };
+    case SWITCH_LANGUAGE:
+
+      return {
+        ...state,
+        locale: action.payload,
+        isDirectionRTL: rltLocale.includes(action.payload.locale)
+
+      };
+    case CHANGE_DIRECTION:
+      return {
+        ...state,
+        isDirectionRTL: !state.isDirectionRTL
+
+      };
+
+    case CHANGE_NAVIGATION_STYLE:
+      return {
+        ...state,
+        navigationStyle: action.payload
+      };
+
+
+    case HORIZONTAL_MENU_POSITION:
+      return {
+        ...state,
+        horizontalNavPosition: action.payload
+      };
+
+
+    default:
+      return state;
+  }
+};
+
+export default settings;
